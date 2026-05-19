@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Daily" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Daily</title>
+  </head>
+  <body>
+    <nav class="tab-bar">
+      <button class="tab active" data-tab="weather">Погода</button>
+      <button class="tab" data-tab="currency">Валюти</button>
+      <button class="tab" data-tab="settings">Налаштування</button>
+    </nav>
+
+    <main>
+      <section id="weather" class="tab-content active">
+        <div class="weather-header">
+          <h1 id="city-name"> </h1>
+          <p id="weather-date">
+
+          </p>
+        </div>
+
+        <div class="weather-main">
+          
+        </div>
+        <div class="weather-details">
+      
+        </div>
+      </section>
+      <section id="currency" class="tab-content">
+        <div class="currency-list">
+        
+        </div>
+
+        <button id="refresh-currency" class="refresh-btn">Оновити</button>
+      </section>
+
+      <section id="settings" class="tab-content">
+        <div class="setting-group">
+          <label for="api-key-input">OpenWeatherMap API ключ</label>
+          <input type="text" id="api-key-input" placeholder="Вставте ваш ключ..." />
+          <button id="save-api-key">Зберегти</button>
+        </div>
+
+        <div class="setting-group">
+          <label for="city-input">Місто за замовчуванням</label>
+          <input type="text" id="city-input" placeholder="Наприклад: Przemysl" />
+          <button id="save-city">Зберегти</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
