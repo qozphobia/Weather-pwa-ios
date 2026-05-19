@@ -1,5 +1,9 @@
 const CACHE_NAME = "daily-app-v1";
-const ASSETS = ["/Weather-pwa-ios/", "/Weather-pwa-ios/index.html", "/Weather-pwa-ios/style.css", "/Weather-pwa-ios/app.js", "/Weather-pwa-ios/manifest.json"];
+const ASSETS = [ "/Weather-pwa-ios/weather-app/",
+  "/Weather-pwa-ios/weather-app/index.html",
+  "/Weather-pwa-ios/weather-app/style.css",
+  "/Weather-pwa-ios/weather-app/app.js",
+  "/Weather-pwa-ios/weather-app/manifest.json"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

@@ -2,7 +2,7 @@
   "name": "My Daily App",
   "short_name": "Daily",
   "description": "Weather and currency rates",
-  "start_url": "/Weather-pwa-ios/",
+  "start_url": "/Weather-pwa-ios/weather-app/index.html",
   "display": "standalone",
   "background_color": "#0f1117",
   "theme_color": "#0f1117",
