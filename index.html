@@ -2,60 +2,146 @@
 <html lang="uk">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self';
+               script-src 'self';
+               style-src 'self' 'unsafe-inline';
+               img-src 'self' data:;
+               manifest-src 'self';
+               base-uri 'self';
+               form-action 'self';
+               connect-src 'self' https://geocoding-api.open-meteo.com https://api.open-meteo.com https://air-quality-api.open-meteo.com https://api.frankfurter.dev https://bank.gov.ua https://api.coingecko.com https://uk.wikipedia.org;"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Daily" />
+    <meta name="theme-color" content="#0f1117" />
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="icon" href="icons/icon-192.png" />
     <link rel="stylesheet" href="style.css" />
     <title>Daily</title>
   </head>
   <body>
-    <nav class="tab-bar">
-      <button class="tab active" data-tab="weather">Погода</button>
-      <button class="tab" data-tab="currency">Валюти</button>
-      <button class="tab" data-tab="settings">Налаштування</button>
-    </nav>
-
     <main>
+      <!-- ===================== WEATHER ===================== -->
       <section id="weather" class="tab-content active">
-        <div class="weather-header">
-          <h1 id="city-name"> </h1>
-          <p id="weather-date">
+        <header class="page-head">
+          <div>
+            <h1 id="city-name" class="page-title">—</h1>
+            <p id="weather-date" class="page-sub"></p>
+          </div>
+          <button id="geo-btn" class="icon-btn" title="Моє місцезнаходження" aria-label="Моє місцезнаходження">📍</button>
+        </header>
 
-          </p>
-        </div>
+        <form id="city-search" class="search">
+          <input id="city-search-input" type="search" placeholder="Пошук міста…" autocomplete="off" />
+          <button type="submit" class="icon-btn">🔍</button>
+        </form>
 
-        <div class="weather-main">
-          
-        </div>
-        <div class="weather-details">
-      
+        <div id="weather-body">
+          <div class="hero card skeleton" id="weather-hero"></div>
+          <div class="stat-grid" id="weather-stats"></div>
+
+          <h2 class="section-label">Погодинно</h2>
+          <div class="hourly-scroll" id="weather-hourly"></div>
+
+          <h2 class="section-label">7 днів</h2>
+          <div class="daily-list" id="weather-daily"></div>
         </div>
       </section>
-      <section id="currency" class="tab-content">
-        <div class="currency-list">
-        
+
+      <!-- ===================== FINANCE ===================== -->
+      <section id="finance" class="tab-content">
+        <header class="page-head">
+          <div>
+            <h1 class="page-title">Фінанси</h1>
+            <p class="page-sub" id="finance-updated"></p>
+          </div>
+          <button id="finance-refresh" class="icon-btn" title="Оновити" aria-label="Оновити">↻</button>
+        </header>
+
+        <h2 class="section-label">Конвертер</h2>
+        <div class="card converter">
+          <div class="conv-row">
+            <input id="conv-amount" class="conv-amount" type="number" inputmode="decimal" value="100" />
+            <select id="conv-from" class="conv-select"></select>
+          </div>
+          <button id="conv-swap" class="conv-swap" title="Поміняти місцями">⇅</button>
+          <div class="conv-row">
+            <output id="conv-result" class="conv-result">—</output>
+            <select id="conv-to" class="conv-select"></select>
+          </div>
+          <p id="conv-rate" class="conv-rate"></p>
         </div>
 
-        <button id="refresh-currency" class="refresh-btn">Оновити</button>
+        <h2 class="section-label">Курси валют</h2>
+        <div class="currency-list" id="currency-list"></div>
+
+        <h2 class="section-label">Криптовалюти</h2>
+        <div class="currency-list" id="crypto-list"></div>
       </section>
 
+      <!-- ===================== DIGEST ===================== -->
+      <section id="digest" class="tab-content">
+        <header class="page-head">
+          <div>
+            <h1 class="page-title">Стрічка</h1>
+            <p class="page-sub" id="digest-date"></p>
+          </div>
+          <button id="digest-refresh" class="icon-btn" title="Оновити" aria-label="Оновити">↻</button>
+        </header>
+
+        <div class="card quote-card" id="quote-card">
+          <p class="quote-text" id="quote-text">…</p>
+          <p class="quote-author" id="quote-author"></p>
+        </div>
+
+        <h2 class="section-label">Цей день в історії</h2>
+        <div class="events-list" id="events-list"></div>
+      </section>
+
+      <!-- ===================== SETTINGS ===================== -->
       <section id="settings" class="tab-content">
-        <div class="setting-group">
-          <label for="api-key-input">OpenWeatherMap API ключ</label>
-          <input type="text" id="api-key-input" placeholder="Вставте ваш ключ..." />
-          <button id="save-api-key">Зберегти</button>
-        </div>
+        <header class="page-head">
+          <h1 class="page-title">Налаштування</h1>
+        </header>
 
         <div class="setting-group">
           <label for="city-input">Місто за замовчуванням</label>
-          <input type="text" id="city-input" placeholder="Наприклад: Przemysl" />
-          <button id="save-city">Зберегти</button>
+          <div class="search">
+            <input type="text" id="city-input" placeholder="Наприклад: Przemyśl" />
+            <button id="save-city" class="icon-btn">✓</button>
+          </div>
         </div>
+
+        <div class="setting-group">
+          <label>Одиниці температури</label>
+          <div class="segmented" id="unit-toggle">
+            <button data-unit="celsius" class="seg active">°C</button>
+            <button data-unit="fahrenheit" class="seg">°F</button>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <button id="clear-cache" class="danger-btn">Очистити кеш і оновити</button>
+        </div>
+
+        <p class="about">Daily · погода та фінанси · дані: Open-Meteo, Frankfurter, НБУ, CoinGecko, Wikipedia</p>
       </section>
     </main>
+
+    <nav class="tab-bar">
+      <button class="tab active" data-tab="weather"><span class="tab-ico">⛅</span><span>Погода</span></button>
+      <button class="tab" data-tab="finance"><span class="tab-ico">💱</span><span>Фінанси</span></button>
+      <button class="tab" data-tab="digest"><span class="tab-ico">📰</span><span>Стрічка</span></button>
+      <button class="tab" data-tab="settings"><span class="tab-ico">⚙️</span><span>Ще</span></button>
+    </nav>
+
+    <div id="toast" class="toast"></div>
 
     <script src="app.js"></script>
   </body>

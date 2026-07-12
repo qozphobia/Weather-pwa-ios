@@ -1,0 +1,44 @@
+# ── Claude Code / AI assistant files (keep private, never publish) ──
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+.claudeignore
+.mcp.json
+AGENTS.md
+.aider*
+.cursor/
+.cursorrules
+.github/copilot-instructions.md
+
+# ── Secrets / environment ──
+.env
+.env.*
+*.local
+*.key
+*.pem
+*.p12
+secrets.*
+
+# ── OS junk ──
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ── Editor / IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Node / tooling (in case any is added later) ──
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.cache/
+
+# ── Logs / temp ──
+*.log
+tmp/
+temp/
