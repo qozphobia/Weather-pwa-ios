@@ -59,6 +59,8 @@ $$(".tab").forEach((tab) => {
       if (target === "finance") loadFinance();
       if (target === "digest") loadDigest();
     }
+    // notes re-render every open so deadlines/overdue state stay fresh
+    if (target === "notes") renderNotes();
   });
 });
 
@@ -481,6 +483,100 @@ function renderEvents(data) {
 }
 
 $("#digest-refresh").addEventListener("click", () => { loadDigest(); toast("Оновлюю…"); });
+
+/* ============================================================
+   NOTES  (local to-dos with deadlines — stored in localStorage)
+   ============================================================ */
+const NOTES_KEY = "notes_v1";
+const getNotes = () => store.get(NOTES_KEY, []);
+const saveNotes = (n) => store.set(NOTES_KEY, n);
+
+// Format a stored deadline into a short Ukrainian label like "до 23:00, сьогодні".
+function fmtDue(iso) {
+  const d = new Date(iso);
+  const now = new Date();
+  const time = d.toLocaleTimeString("uk-UA", { hour: "2-digit", minute: "2-digit" });
+  const midnight = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+  const dayDiff = Math.round((midnight(d) - midnight(now)) / 864e5);
+  let day;
+  if (dayDiff === 0) day = "сьогодні";
+  else if (dayDiff === 1) day = "завтра";
+  else if (dayDiff === -1) day = "вчора";
+  else day = d.toLocaleDateString("uk-UA", { day: "numeric", month: "short" });
+  return `до ${time}, ${day}`;
+}
+
+function noteCard(n) {
+  const overdue = n.due && !n.done && new Date(n.due).getTime() < Date.now();
+  return `
+    <div class="note ${n.done ? "done" : ""} ${overdue ? "overdue" : ""}" data-id="${esc(n.id)}">
+      <button class="note-check" data-act="toggle" aria-label="Позначити виконаним">${n.done ? "✓" : ""}</button>
+      <div class="note-body">
+        <div class="note-text">${esc(n.text)}</div>
+        ${n.due ? `<div class="note-due">🕑 ${esc(fmtDue(n.due))}</div>` : ""}
+      </div>
+      <button class="note-del" data-act="del" aria-label="Видалити">✕</button>
+    </div>`;
+}
+
+function renderNotes() {
+  const notes = getNotes();
+  const list = $("#notes-list");
+  const active = notes.filter((n) => !n.done).length;
+  $("#notes-sub").textContent = notes.length
+    ? `${active} активних · ${notes.length} усього`
+    : "Немає нотаток";
+
+  if (!notes.length) {
+    list.innerHTML = `<p class="msg">Ще немає нотаток. Додай першу вище.</p>`;
+    return;
+  }
+
+  // undone first; within each group, by nearest deadline (no-deadline last), newest last
+  const sorted = [...notes].sort((a, b) => {
+    if (!!a.done !== !!b.done) return a.done ? 1 : -1;
+    if (a.due && b.due) return new Date(a.due) - new Date(b.due);
+    if (a.due) return -1;
+    if (b.due) return 1;
+    return (b.created || 0) - (a.created || 0);
+  });
+  list.innerHTML = sorted.map(noteCard).join("");
+}
+
+$("#note-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = $("#note-text").value.trim();
+  if (!text) return toast("Введи текст нотатки");
+  const due = $("#note-due").value; // "" or "YYYY-MM-DDTHH:mm" (local time)
+  const notes = getNotes();
+  notes.push({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    text,
+    due: due || null,
+    done: false,
+    created: Date.now(),
+  });
+  saveNotes(notes);
+  $("#note-text").value = "";
+  $("#note-due").value = "";
+  renderNotes();
+  toast("Нотатку додано");
+});
+
+// event delegation — cards are re-rendered, so listen on the stable container
+$("#notes-list").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-act]");
+  if (!btn) return;
+  const id = btn.closest(".note").dataset.id;
+  let notes = getNotes();
+  if (btn.dataset.act === "toggle") {
+    notes = notes.map((n) => (n.id === id ? { ...n, done: !n.done } : n));
+  } else if (btn.dataset.act === "del") {
+    notes = notes.filter((n) => n.id !== id);
+  }
+  saveNotes(notes);
+  renderNotes();
+});
 
 /* ============================================================
    SETTINGS

@@ -1,16 +1,18 @@
 :root {
-  --bg: #0f1117;
-  --bg-2: #12151f;
-  --surface: #1a1d27;
-  --surface-2: #21252f;
-  --border: #2a2d3a;
-  --text: #e8eaf0;
-  --text-muted: #8b91a3;
-  --accent: #4f8ef7;
-  --accent-soft: rgba(79, 142, 247, 0.15);
-  --success: #34d399;
-  --danger: #f87171;
-  --warning: #fbbf24;
+  color-scheme: dark;
+  --bg: #17150f;
+  --bg-2: #1c1913;
+  --surface: #24201a;
+  --surface-2: #2e2921;
+  --border: #3a332a;
+  --text: #ece7dc;
+  --text-muted: #a49b88;
+  --accent: #d97757;
+  --accent-2: #e89b6c;
+  --accent-soft: rgba(217, 119, 87, 0.15);
+  --success: #7fb069;
+  --danger: #e07a5f;
+  --warning: #e9b949;
   --radius: 18px;
   --radius-sm: 12px;
   --tab-height: 62px;
@@ -28,7 +30,7 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   background:
-    radial-gradient(1200px 600px at 50% -10%, #1b2440 0%, transparent 60%),
+    radial-gradient(1200px 600px at 50% -10%, #4a2c1a 0%, transparent 60%),
     var(--bg);
   background-attachment: fixed;
   color: var(--text);
@@ -138,8 +140,8 @@ main {
 
 /* ---------- Weather hero ---------- */
 .hero {
-  background: linear-gradient(150deg, #23407a 0%, #1a1d27 70%);
-  border-color: #2f4270;
+  background: linear-gradient(150deg, #8a4a26 0%, #24201a 72%);
+  border-color: #5c3c22;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -283,8 +285,8 @@ main {
 
 /* ---------- Digest ---------- */
 .quote-card {
-  background: linear-gradient(150deg, #2a2340 0%, #1a1d27 75%);
-  border-color: #3a3357;
+  background: linear-gradient(150deg, #3a2a1c 0%, #24201a 75%);
+  border-color: #4a3826;
 }
 .quote-text { font-size: 18px; font-weight: 600; line-height: 1.45; font-style: italic; }
 .quote-text::before { content: "“"; color: var(--accent); font-size: 26px; }
@@ -313,6 +315,91 @@ label { font-size: 14px; color: var(--text-muted); font-weight: 600; }
 .danger-btn { background: var(--surface); border: 1px solid var(--border); color: var(--danger); font-size: 15px; font-weight: 600; padding: 13px; border-radius: 12px; cursor: pointer; width: 100%; }
 .danger-btn:active { background: var(--surface-2); }
 .about { color: var(--text-muted); font-size: 12px; text-align: center; margin-top: 12px; line-height: 1.6; }
+
+/* ---------- Notes ---------- */
+.note-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 8px; }
+.note-form input {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 16px;
+  padding: 12px 14px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+.note-form input:focus { border-color: var(--accent); }
+#note-text { font-weight: 600; }
+.note-form-row { display: flex; gap: 10px; align-items: stretch; }
+#note-due { flex: 1; min-width: 0; color-scheme: dark; }
+.add-btn {
+  flex: 0 0 auto;
+  background: var(--accent);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 0 20px;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+.add-btn:active { transform: scale(0.95); opacity: 0.9; }
+
+.notes-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+.note.overdue { border-color: var(--danger); background: rgba(224, 122, 95, 0.08); }
+.note-check {
+  flex: 0 0 auto;
+  width: 26px; height: 26px;
+  margin-top: 1px;
+  border: 2px solid var(--text-muted);
+  border-radius: 8px;
+  background: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: background 0.15s, border-color 0.15s;
+}
+.note.done .note-check { background: var(--success); border-color: var(--success); }
+.note-body { flex: 1; min-width: 0; }
+.note-text { font-size: 15px; font-weight: 600; line-height: 1.4; word-break: break-word; }
+.note.done .note-text { color: var(--text-muted); text-decoration: line-through; }
+.note-due {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 6px;
+  font-size: 12px; font-weight: 700;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+.note.overdue .note-due { color: var(--danger); background: rgba(224, 122, 95, 0.15); }
+.note.done .note-due { opacity: 0.55; }
+.note-del {
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  width: 28px; height: 28px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+}
+.note-del:active { color: var(--danger); background: var(--surface-2); }
 
 /* ---------- States ---------- */
 .skeleton {

@@ -18,7 +18,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Daily" />
-    <meta name="theme-color" content="#0f1117" />
+    <meta name="theme-color" content="#17150f" />
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="icons/icon-192.png" />
     <link rel="icon" href="icons/icon-192.png" />
@@ -104,6 +104,26 @@
         <div class="events-list" id="events-list"></div>
       </section>
 
+      <!-- ===================== NOTES ===================== -->
+      <section id="notes" class="tab-content">
+        <header class="page-head">
+          <div>
+            <h1 class="page-title">Нотатки</h1>
+            <p class="page-sub" id="notes-sub"></p>
+          </div>
+        </header>
+
+        <form id="note-form" class="card note-form">
+          <input id="note-text" type="text" placeholder="Що потрібно зробити?" autocomplete="off" maxlength="280" />
+          <div class="note-form-row">
+            <input id="note-due" type="datetime-local" aria-label="Термін виконання" />
+            <button type="submit" class="add-btn">Додати</button>
+          </div>
+        </form>
+
+        <div class="notes-list" id="notes-list"></div>
+      </section>
+
       <!-- ===================== SETTINGS ===================== -->
       <section id="settings" class="tab-content">
         <header class="page-head">
@@ -138,6 +158,7 @@
       <button class="tab active" data-tab="weather"><span class="tab-ico">⛅</span><span>Погода</span></button>
       <button class="tab" data-tab="finance"><span class="tab-ico">💱</span><span>Фінанси</span></button>
       <button class="tab" data-tab="digest"><span class="tab-ico">📰</span><span>Стрічка</span></button>
+      <button class="tab" data-tab="notes"><span class="tab-ico">📝</span><span>Нотатки</span></button>
       <button class="tab" data-tab="settings"><span class="tab-ico">⚙️</span><span>Ще</span></button>
     </nav>
 
