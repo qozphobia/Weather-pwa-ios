@@ -1,0 +1,84 @@
+.claude/
+.claude.json
+.claude.local.json
+CLAUDE.md
+CLAUDE.local.md
+.mcp.json
+.aider*
+.cursor/
+.continue/
+.github/copilot-instructions.md
+
+
+.env
+.env.*
+!.env.example
+*.local
+config.local.*
+secrets.*
+credentials.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+id_rsa
+id_ed25519
+*.crt
+apikey*
+api-keys*
+.htpasswd
+
+# personal notes / scratch
+notes/
+private/
+TODO.private*
+scratch/
+
+# ---------------------------------------------------------------------------
+# OS junk
+# ---------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---------------------------------------------------------------------------
+# Editors / IDEs
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.history/
+
+# ---------------------------------------------------------------------------
+# Node / build tooling (future-proofing — safe even if unused)
+# ---------------------------------------------------------------------------
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+.vite/
+coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------------------------------------------------------------------------
+# Misc temp
+# ---------------------------------------------------------------------------
+*.tmp
+*.temp
+*.bak
